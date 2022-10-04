@@ -39,9 +39,9 @@ COPY --from=builder /etc/group /etc/group
 WORKDIR /admin
 
 # Copy our build
-COPY --from=builder /admin/target/x86_64-unknown-linux-musl/release/api ./
+COPY --from=builder /admin/target/x86_64-unknown-linux-musl/release/axum-api ./
 
 # Use an unprivileged user.
 USER admin:admin
 
-CMD ["/admin/api"]
+CMD ["/admin/axum-api"]

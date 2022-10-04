@@ -1,5 +1,5 @@
 [package]
-name = "api"
+name = "axum-api"
 version = "0.1.0"
 edition = "2021"
 
@@ -20,3 +20,12 @@ codegen-units = 1 # maximize size reduction optimizations
 jemallocator = "0.3.2"
 
 [dependencies]
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+anyhow = "1.0.63"
+async-trait = "0.1.57"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.82"
+axum = "0.5.16"
+lazy_static = "1.4.0"

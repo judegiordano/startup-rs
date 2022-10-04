@@ -1,12 +1,15 @@
 version: '3.6'
 
 services:
-  rust-by-example:
+  axum-api:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: rust-by-example
+    container_name: axum-api
     ports:
       - 3000:3000
     expose:
       - 3000
+    environment:
+      - PORT=3000
+      - LOG_LEVEL=debug
