@@ -1,0 +1,14 @@
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.github
+*/bin
+*/obj
+README.md
+LICENSE
+.vscode
+rust-toolchain
+target
+tests

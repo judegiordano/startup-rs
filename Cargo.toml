@@ -1,0 +1,22 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+panic = "abort"
+opt-level = 3 # 0-3
+# opt-level = "s" # optimize for size
+strip = 'symbols' # strip symbols from binary
+lto = true # enable link time optimization
+codegen-units = 1 # maximize size reduction optimizations
+
+# use jemallocator memory allocator
+[target.'cfg(not(target_env = "msvc"))'.dependencies]
+jemallocator = "0.3.2"
+
+[dependencies]

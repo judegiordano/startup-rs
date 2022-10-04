@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  rust-by-example:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: rust-by-example
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
