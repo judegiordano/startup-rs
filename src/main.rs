@@ -1,43 +1,28 @@
 #[macro_use]
 extern crate lazy_static;
 use anyhow::Result;
-use axum::{routing::get, Json, Router};
-use serde::{Deserialize, Serialize};
+use axum::Router;
 use std::net::SocketAddr;
 use tracing_subscriber::FmtSubscriber;
 
+pub mod api;
 pub mod util;
-
-#[derive(Serialize, Deserialize)]
-struct User {
-    id: u64,
-    username: String,
-}
-
-fn try_me() -> Result<User> {
-    Ok(User {
-        id: 1,
-        username: String::from("jude"),
-    })
-}
-
-async fn root() -> Result<Json<User>, util::errors::ApiError> {
-    let user = try_me()?;
-    Ok(Json(user))
-}
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    // tracing
     let subscriber = FmtSubscriber::builder()
         .with_max_level(util::config::CONFIG.log_level)
         .finish();
     tracing::subscriber::set_global_default(subscriber)?;
-
-    let app = Router::new().route("/", get(root));
+    // app config
+    let app = Router::new()
+        .nest("/api", api::routes())
+        .into_make_service();
+    // let app = Router::new().nest("/", get(root)).into_make_service();
     let addr = SocketAddr::from(([0, 0, 0, 0], util::config::CONFIG.port));
     tracing::info!("listening on {}", addr);
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    // launch
+    axum::Server::bind(&addr).serve(app).await?;
     Ok(())
 }
