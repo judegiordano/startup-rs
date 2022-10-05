@@ -1,7 +1,19 @@
 version: '3.6'
 
 services:
+  # mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+    volumes:
+      - 'mongo:/data/db'
+  # server
   axum-api:
+    depends_on:
+      - 'mongo'
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -12,4 +24,8 @@ services:
       - 3000
     environment:
       - PORT=3000
+      - MONGO_URI=mongodb://mongo:27017/axum-local
       - LOG_LEVEL=debug
+
+volumes:
+  mongo:

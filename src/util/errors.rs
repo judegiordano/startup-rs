@@ -5,6 +5,7 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug)]
 pub struct ApiError(anyhow::Error);
 
 impl<E> From<E> for ApiError
@@ -23,6 +24,7 @@ pub struct ErrorMessage {
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
+        tracing::error!("{:#?}", self);
         (
             StatusCode::INTERNAL_SERVER_ERROR,
             Json(ErrorMessage {

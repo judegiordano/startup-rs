@@ -19,7 +19,6 @@ async fn main() -> Result<()> {
     let app = Router::new()
         .nest("/api", api::routes())
         .into_make_service();
-    // let app = Router::new().nest("/", get(root)).into_make_service();
     let addr = SocketAddr::from(([0, 0, 0, 0], util::config::CONFIG.port));
     tracing::info!("listening on {}", addr);
     // launch
