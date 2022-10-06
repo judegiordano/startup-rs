@@ -21,6 +21,10 @@ async fn main() -> Result<()> {
         "connected to {:#?}",
         util::database::DATABASE.get().await.name()
     );
+    // run migrations
+    {
+        models::migrate().await?
+    }
     // app config
     let app = Router::new()
         .nest("/api", api::routes())
