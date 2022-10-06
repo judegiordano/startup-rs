@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate lazy_static;
+use actix_cors::Cors;
+use actix_web::{middleware, web::scope, App, HttpServer};
 use anyhow::Result;
-use axum::Router;
-use std::net::SocketAddr;
 use tracing_subscriber::FmtSubscriber;
 
 pub mod api;
@@ -25,13 +25,18 @@ async fn main() -> Result<()> {
     {
         models::migrate().await?
     }
-    // app config
-    let app = Router::new()
-        .nest("/api", api::routes())
-        .into_make_service();
-    let addr = SocketAddr::from(([0, 0, 0, 0], util::config::CONFIG.port));
-    tracing::info!("listening on {}", addr);
+    tracing::info!("listening on port: {}", util::config::CONFIG.port);
     // launch
-    axum::Server::bind(&addr).serve(app).await?;
+    HttpServer::new(move || {
+        let cors = Cors::default();
+        let compression = middleware::Compress::default();
+        App::new()
+            .wrap(cors)
+            .wrap(compression)
+            .service(scope("/api").configure(api::routes))
+    })
+    .bind(("0.0.0.0", util::config::CONFIG.port))?
+    .run()
+    .await?;
     Ok(())
 }

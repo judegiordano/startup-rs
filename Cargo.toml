@@ -1,5 +1,5 @@
 [package]
-name = "axum-api"
+name = "startup-api"
 version = "0.1.0"
 edition = "2021"
 
@@ -23,7 +23,8 @@ jemallocator = "0.3.2"
 anyhow = "1.0.63"
 async_once = "0.2.6"
 async-trait = "0.1.57"
-axum = "0.5.16"
+actix-web = "4"
+actix-cors = "0.6.3"
 chrono = { version = "0.4.19", features = ["serde"] }
 futures = "0.3.24"
 lazy_static = "1.4.0"
@@ -34,3 +35,5 @@ serde_json = "1.0.82"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
+hyper = { version = "0.14.20", features = ["full"] }
+http = "0.2.8"

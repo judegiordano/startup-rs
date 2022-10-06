@@ -1,7 +1,7 @@
-use axum::Router;
+use actix_web::web::{scope, ServiceConfig};
 
 pub mod dev;
 
-pub fn routes() -> Router {
-    Router::new().merge(dev::router())
+pub fn routes(cfg: &mut ServiceConfig) {
+    cfg.service(scope("/dev").configure(dev::router));
 }

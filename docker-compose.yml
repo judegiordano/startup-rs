@@ -11,21 +11,21 @@ services:
     volumes:
       - 'mongo:/data/db'
   # server
-  axum-api:
+  startup-api:
     depends_on:
       - 'mongo'
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: axum-api
+    container_name: startup-api
     ports:
       - 3000:3000
     expose:
       - 3000
     environment:
       - PORT=3000
-      - MONGO_URI=mongodb://mongo:27017/axum-local
-      - LOG_LEVEL=debug
+      - MONGO_URI=mongodb://mongo:27017/startup-api
+      - LOG_LEVEL=info
 
 volumes:
   mongo:

@@ -1,15 +1,8 @@
-use axum::{
-    routing::{get, post},
-    Router,
-};
+use actix_web::web::ServiceConfig;
 
 pub mod controller;
 
-pub fn router() -> Router {
-    Router::new().nest(
-        "/dev",
-        Router::new()
-            .route("/ping", post(controller::ping))
-            .route("/pong/:id", get(controller::pong)),
-    )
+pub fn router(cfg: &mut ServiceConfig) {
+    cfg.service(controller::ping);
+    cfg.service(controller::pong);
 }

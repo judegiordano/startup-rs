@@ -11,6 +11,11 @@ use serde::{de::DeserializeOwned, Serialize};
 use crate::util::database::DATABASE;
 pub mod dev_data;
 
+pub async fn migrate() -> Result<()> {
+    dev_data::DevLog::create_indexes().await?;
+    Ok(())
+}
+
 #[async_trait]
 pub trait Model<T: DeserializeOwned + Unpin + Send + Sync + Serialize> {
     fn collection_name() -> String;
@@ -48,9 +53,4 @@ pub trait Model<T: DeserializeOwned + Unpin + Send + Sync + Serialize> {
             .await?;
         Ok(count as usize)
     }
-}
-
-pub async fn migrate() -> Result<()> {
-    dev_data::DevLog::create_indexes().await?;
-    Ok(())
 }
