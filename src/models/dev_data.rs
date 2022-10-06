@@ -1,5 +1,6 @@
 use anyhow::Result;
 use async_trait::async_trait;
+use chrono::{DateTime, Utc};
 use mongodb::{bson::doc, options::IndexOptions, results::CreateIndexesResult, IndexModel};
 use serde::{Deserialize, Serialize};
 
@@ -10,6 +11,7 @@ pub struct DevLog {
     #[serde(rename = "_id")]
     pub id: String,
     pub message: String,
+    pub date: DateTime<Utc>,
 }
 
 #[async_trait]

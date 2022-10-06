@@ -1,3 +1,6 @@
+use std::time::SystemTime;
+
+use chrono::{DateTime, Utc};
 use nanoid::nanoid;
 
 const ALPHABET: [char; 26] = [
@@ -7,4 +10,10 @@ const ALPHABET: [char; 26] = [
 
 pub fn nanoid() -> String {
     nanoid!(20, &ALPHABET)
+}
+
+pub fn iso_timestamp() -> String {
+    let now = SystemTime::now();
+    let now: DateTime<Utc> = now.into();
+    now.to_rfc3339()
 }
