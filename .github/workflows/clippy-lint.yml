@@ -17,18 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # use stable rust
-      - uses: actions-rs/toolchain@v1
+      - name: install latest stable
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          override: true
+          components: clippy
 
-      # add clippy
-      - run: rustup component add clippy
-
-      # lint
-      - uses: actions-rs/clippy-check@v1
+      - name: lint
+        uses: actions-rs/cargo@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          command: clippy
           args: -- \
             -W clippy::nursery \
             -W clippy::pedantic \
