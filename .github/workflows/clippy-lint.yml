@@ -29,7 +29,7 @@ jobs:
       - name: lint
         uses: actions-rs/cargo@v1
         with:
-          command: clippy --
+          command: clippy
           args: |
             -W clippy::nursery \
             -W clippy::pedantic \
