@@ -10,10 +10,10 @@ use crate::{
 pub async fn authenticate_dev(req: &HttpRequest) -> Result<()> {
     let headers = req.headers();
     let auth = headers.get("Authorization");
-    if auth.is_none() {
-        anyhow::bail!("unauthorized")
-    }
-    let token = auth.unwrap().to_str()?.split(' ').collect::<Vec<&str>>();
+    let token = match auth {
+        Some(value) => value.to_str()?.split(' ').collect::<Vec<&str>>(),
+        None => anyhow::bail!("unauthorized"),
+    };
     if token.len() <= 1 {
         anyhow::bail!("missing token")
     }

@@ -2,6 +2,7 @@ name: Clippy Lint
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
@@ -16,13 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # use stable rust
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - run: rustup component add clippy
 
-      # lint
-      - name: lint
-        uses: actions-rs/cargo@v1
+      - uses: actions-rs/clippy-check@v1
         with:
-          command: clippy
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: -- \
+            -W clippy::nursery \
+            -W clippy::pedantic \
+            -W clippy::unwrap_used \
+            -W clippy::expect_used \
+            -A clippy::future_not_send \
+            -A clippy::must_use_candidate \
+            -A clippy::missing_errors_doc \
+            -A clippy::unused_async

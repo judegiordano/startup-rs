@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
     );
     // run migrations
     {
-        models::migrate().await?
+        models::migrate().await?;
     }
     tracing::info!("listening on port: {}", util::config::CONFIG.port);
     // launch

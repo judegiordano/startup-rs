@@ -41,16 +41,16 @@ pub trait Model<T: DeserializeOwned + Unpin + Send + Sync + Serialize> {
         let mut results = Self::collection().await.aggregate(pipeline, None).await?;
         let mut docs = vec![];
         while let Some(doc) = results.try_next().await? {
-            docs.push(bson::from_document(doc)?)
+            docs.push(bson::from_document(doc)?);
         }
         Ok(docs)
     }
 
-    async fn count() -> Result<usize> {
+    async fn count() -> Result<u64> {
         let count = Self::collection()
             .await
             .estimated_document_count(None)
             .await?;
-        Ok(count as usize)
+        Ok(count)
     }
 }
