@@ -31,7 +31,7 @@ jobs:
         with:
           command: clippy
           args: |
-            -W clippy::nursery \
+            -- -W clippy::nursery \
             -W clippy::pedantic \
             -W clippy::unwrap_used \
             -W clippy::expect_used \
