@@ -6,6 +6,7 @@ use std::net::SocketAddr;
 use tracing_subscriber::FmtSubscriber;
 
 pub mod api;
+pub mod models;
 pub mod util;
 
 #[tokio::main]
@@ -15,6 +16,11 @@ async fn main() -> Result<()> {
         .with_max_level(util::config::CONFIG.log_level)
         .finish();
     tracing::subscriber::set_global_default(subscriber)?;
+    // lazy connect to db
+    tracing::info!(
+        "connected to {:#?}",
+        util::database::DATABASE.get().await.name()
+    );
     // app config
     let app = Router::new()
         .nest("/api", api::routes())

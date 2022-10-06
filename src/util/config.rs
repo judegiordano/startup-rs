@@ -6,7 +6,7 @@ pub struct Config {
 }
 
 impl Config {
-    fn get_required(key_name: &str) -> String {
+    pub fn get_required(key_name: &str) -> String {
         match env::var(key_name) {
             Ok(found) => found,
             Err(e) => {

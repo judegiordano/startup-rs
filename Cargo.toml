@@ -9,10 +9,10 @@ opt-level = 0
 
 [profile.release]
 panic = "abort"
-opt-level = 3 # 0-3
+opt-level = 3   # 0-3
 # opt-level = "s" # optimize for size
 strip = 'symbols' # strip symbols from binary
-lto = true # enable link time optimization
+lto = true        # enable link time optimization
 codegen-units = 1 # maximize size reduction optimizations
 
 # use jemallocator memory allocator
@@ -20,12 +20,17 @@ codegen-units = 1 # maximize size reduction optimizations
 jemallocator = "0.3.2"
 
 [dependencies]
+anyhow = "1.0.63"
+async_once = "0.2.6"
+async-trait = "0.1.57"
+axum = "0.5.16"
+chrono = { version = "0.4.19", features = ["serde"] }
+futures = "0.3.24"
+lazy_static = "1.4.0"
+mongodb = { version = "2.3.1", features = ["tokio-sync", "tokio-runtime"] }
+nanoid = "0.4.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.82"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
-anyhow = "1.0.63"
-async-trait = "0.1.57"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0.82"
-axum = "0.5.16"
-lazy_static = "1.4.0"

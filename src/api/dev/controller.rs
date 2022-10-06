@@ -1,23 +1,29 @@
 use anyhow::Result;
-use axum::Json;
+use axum::{extract::Path, Json};
 use serde::{Deserialize, Serialize};
 
-use crate::util;
+use crate::{
+    models::{dev_data::DevLog, Model},
+    util,
+};
 
-#[derive(Serialize, Deserialize)]
-pub struct DevResponse {
-    pub ok: bool,
-    pub message: String,
+#[derive(Deserialize, Serialize)]
+pub struct Inserted {
+    pub id: String,
 }
 
-fn try_me() -> Result<DevResponse> {
-    Ok(DevResponse {
-        ok: true,
-        message: "sup".to_string(),
-    })
+pub async fn ping() -> Result<Json<Inserted>, util::errors::ApiError> {
+    let doc = DevLog {
+        id: util::tools::nanoid(),
+        message: format!("request received: {}", chrono::Utc::now()),
+    };
+    let inserted = DevLog::collection().await.insert_one(doc, None).await?;
+    Ok(Json(Inserted {
+        id: inserted.inserted_id.to_string(),
+    }))
 }
 
-pub async fn ping() -> Result<Json<DevResponse>, util::errors::ApiError> {
-    let response = try_me()?;
-    Ok(Json(response))
+pub async fn pong(Path(id): Path<String>) -> Result<Json<DevLog>, util::errors::ApiError> {
+    let doc = DevLog::read_by_id(&id).await?;
+    Ok(Json(doc))
 }
