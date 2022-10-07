@@ -7,6 +7,7 @@ use tracing_subscriber::FmtSubscriber;
 
 pub mod api;
 pub mod models;
+pub mod tests;
 pub mod util;
 
 #[tokio::main]

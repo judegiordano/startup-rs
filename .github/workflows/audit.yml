@@ -1,0 +1,25 @@
+name: Security Audit
+
+on:
+  schedule:
+    # 8:00 am every day
+    - cron: "0 8 * * *"
+  push:
+    paths:
+      - "**/Cargo.*"
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  security_audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
