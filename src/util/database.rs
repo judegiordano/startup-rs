@@ -10,12 +10,12 @@ lazy_static! {
             eprintln!("error connecting to db: {}", err);
             std::process::exit(1)
         });
-        client.default_database().map_or_else(
-            || {
+        match client.default_database() {
+            Some(conn) => conn,
+            None => {
                 eprintln!("no default database found");
                 std::process::exit(1)
-            },
-            |db| db,
-        )
+            }
+        }
     });
 }
