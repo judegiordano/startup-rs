@@ -8,7 +8,7 @@ use mongodb::{
 };
 use serde::{de::DeserializeOwned, Serialize};
 
-use crate::util::database::DATABASE;
+use crate::database::DATABASE;
 pub mod dev_data;
 
 pub async fn migrate() -> Result<()> {

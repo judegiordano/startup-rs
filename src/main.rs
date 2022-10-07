@@ -4,6 +4,7 @@ use anyhow::Result;
 use tracing_subscriber::FmtSubscriber;
 
 pub mod api;
+pub mod database;
 pub mod models;
 pub mod server;
 pub mod tests;

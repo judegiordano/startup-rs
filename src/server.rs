@@ -8,7 +8,7 @@ pub async fn run() -> Result<()> {
     // lazy connect to db
     tracing::info!(
         "connected to {:#?}",
-        util::database::DATABASE.get().await.name()
+        super::database::DATABASE.get().await.name()
     );
     // run migrations
     models::migrate().await?;
