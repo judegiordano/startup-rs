@@ -1,9 +1,9 @@
 name: Audit
 
 on:
-  schedule:
-    # 8:00 am every day
-    - cron: "0 8 * * *"
+  # schedule:
+  #   # 8:00 am every day
+  #   - cron: "0 8 * * *"
   push:
     paths:
       - "**/Cargo.*"
