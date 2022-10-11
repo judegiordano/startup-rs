@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use actix_web::HttpResponse;
 use anyhow::Result;
-use http::HeaderValue;
+use http::{HeaderValue, StatusCode};
 
 pub type ApiResponse = Result<HttpResponse, ApiError>;
 
@@ -25,14 +25,13 @@ impl Display for ApiError {
 }
 
 impl actix_web::error::ResponseError for ApiError {
-    fn status_code(&self) -> hyper::StatusCode {
-        hyper::StatusCode::INTERNAL_SERVER_ERROR
+    fn status_code(&self) -> StatusCode {
+        StatusCode::INTERNAL_SERVER_ERROR
     }
 
     fn error_response(&self) -> HttpResponse<actix_web::body::BoxBody> {
         tracing::error!("{:?}", self);
         let mut res = HttpResponse::new(self.status_code());
-        // res.headers().
         res.headers_mut().insert(
             actix_web::http::header::CONTENT_TYPE,
             HeaderValue::from_static("application/json"),
