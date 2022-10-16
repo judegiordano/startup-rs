@@ -3,7 +3,7 @@ mod tests {
 
     use anyhow::Result;
 
-    fn count_concurrent(len: usize, sleep: u64) -> anyhow::Result<i32> {
+    fn count_concurrent(len: usize, sleep: u64) -> Result<i32> {
         let wg = crossbeam::sync::WaitGroup::new();
         let (s, r) = crossbeam::channel::bounded(len);
         s.send(0)?;
