@@ -4,13 +4,14 @@ use actix_web::{
 };
 use anyhow::Result;
 use chrono::Utc;
-use serde::Deserialize;
 use validator::Validate;
 
 use crate::{
     models::{dev_data::DevLog, Model},
     util::{self, errors::ApiResponse},
 };
+
+use super::validator::CreatePing;
 
 pub async fn authenticate_dev(req: &HttpRequest) -> Result<bool> {
     let headers = req.headers();
@@ -28,17 +29,7 @@ pub async fn authenticate_dev(req: &HttpRequest) -> Result<bool> {
     Ok(true)
 }
 
-#[derive(Debug, Validate, Deserialize)]
-pub struct InsertBody {
-    #[validate(length(
-        min = 1,
-        max = 20,
-        message = "body.message must be between 1 and 20 characters"
-    ))]
-    message: String,
-}
-
-pub async fn ping(req: HttpRequest, body: web::Json<InsertBody>) -> ApiResponse {
+pub async fn ping(req: HttpRequest, body: web::Json<CreatePing>) -> ApiResponse {
     body.validate()?;
     authenticate_dev(&req).await?;
     let doc = DevLog {
