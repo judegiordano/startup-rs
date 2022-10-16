@@ -27,6 +27,7 @@
 - [Embedded](https://doc.rust-lang.org/stable/embedded-book)
 - [Unstable Book](https://doc.rust-lang.org/nightly/unstable-book/index.html)
 - [References](https://doc.rust-lang.org/reference/index.html)
+- [Gui](https://gtk-rs.org/gtk4-rs/stable/latest/book)
   <br>
 
 </details>

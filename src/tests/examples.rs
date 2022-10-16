@@ -28,7 +28,14 @@ mod tests {
     #[test]
     fn should_count_concurrently() -> Result<()> {
         let now = std::time::Instant::now();
-        assert_eq!(count_concurrent(2, 5_00)?, 2);
+        let target = 2468;
+        let count = count_concurrent(target, 1_000)?;
+        assert_eq!(count as usize, target);
+        // within slight margin of error, operation should complete
+        // concurrently in about 1,000 ms, even with a sleep
+        // and as target number grows or shrinks
+        let elapsed = now.elapsed().as_millis();
+        assert!(elapsed >= 1_000 && elapsed <= 2_000);
         println!("operation complete: {:.2?}", now.elapsed());
         Ok(())
     }

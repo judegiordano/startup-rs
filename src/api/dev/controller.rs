@@ -7,21 +7,20 @@ use crate::{
     util::{self, errors::ApiResponse},
 };
 
-pub async fn authenticate_dev(req: &HttpRequest) -> Result<()> {
+pub async fn authenticate_dev(req: &HttpRequest) -> Result<bool> {
     let headers = req.headers();
-    let auth = headers.get("Authorization");
-    let token = match auth {
+    let token = match headers.get("Authorization") {
         Some(value) => value.to_str()?.split(' ').collect::<Vec<&str>>(),
         None => anyhow::bail!("unauthorized"),
     };
-    if token.len() <= 1 {
-        anyhow::bail!("missing token")
-    }
-    let token = token[1];
-    if token != "secret_lol" {
+    let token = match token.get(1) {
+        Some(value) => *value,
+        None => anyhow::bail!("missing token"),
+    };
+    if token.ne("secret_lol") {
         anyhow::bail!("invalid token")
     }
-    Ok(())
+    Ok(true)
 }
 
 pub async fn ping(req: HttpRequest) -> ApiResponse {
